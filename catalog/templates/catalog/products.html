@@ -1,20 +1,19 @@
 {% extends 'catalog/base.html' %}
+{% load tags %}
 {% block content %}
-{% for object in object_list %}
-<div class="col-3">
+<div class="col-6">
     <div class="card mb-4 box-shadow">
         <div class="card-header">
-            <h4 class="my-0 font-weight-normal">Iphone 15</h4>
+            <h4 class="my-0 font-weight-normal">{{ object }}</h4>
         </div>
         <div class="card-body">
-            <h1 class="card-title pricing-card-title">$ 1000</h1>
-            <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                <li>- 256GB</li>
-                <li>- Розовый</li>
-            </ul>
+            <h1 class="card-title pricing-card-title">{{ object.price }} $</h1>
+            <p>{{ object.description }} </p>
             <button type="button" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
         </div>
     </div>
 </div>
-{% endfor %}
+<div class="col-6">
+    <img height="50%" src="{{ object.image|modify_path }}" />
+</div>
 {% endblock %}

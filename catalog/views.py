@@ -7,6 +7,7 @@ from catalog.models import Product
 class ProductListView(ListView):
     model = Product
     template_name = 'catalog/index.html'
+    extra_content = {"title": "Shop"}
 
 
 class ProductDetailView(DetailView):

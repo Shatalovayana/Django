@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from blog.models import Blog
 from catalog.models import Product, Category
 
 
@@ -13,3 +14,9 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name',)
+
+
+@admin.register(Blog)
+class BlogAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'title', 'body', 'image', 'created_at', 'is_published')
+    list_filter = ('is_published',)

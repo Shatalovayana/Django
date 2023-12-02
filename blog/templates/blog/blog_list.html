@@ -1,4 +1,7 @@
 {% extends 'catalog/base.html' %}
+{% block title %}
+<h1 align="center" style="color:Black">Blog</h1>
+{% endblock %}
 {% block content %}
 <div class="col-12 mb-5">
     <a type="button" href="{% url 'blog:create' %}" class="btn btn-lg btn-block btn-outline-primary">Добавить блог</a>

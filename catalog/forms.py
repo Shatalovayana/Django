@@ -15,6 +15,13 @@ class ProductForm(forms.ModelForm):
             raise forms.ValidationError('Содержится недопустимое слово')
         return cleaned_data
 
+    def clean_description(self):
+        cleaned_data = self.cleaned_data['description']
+        stop_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
+        if cleaned_data in stop_words:
+            raise forms.ValidationError('Содержится недопустимое слово')
+        return cleaned_data
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():

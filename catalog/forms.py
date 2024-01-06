@@ -2,6 +2,8 @@ from django import forms
 
 from catalog.models import Product, Version
 
+STOP_WORDS = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
+
 
 class ProductForm(forms.ModelForm):
     class Meta:
@@ -10,15 +12,13 @@ class ProductForm(forms.ModelForm):
 
     def clean_name(self):
         cleaned_data = self.cleaned_data['name']
-        stop_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
-        if cleaned_data in stop_words:
+        if cleaned_data in STOP_WORDS:
             raise forms.ValidationError('Содержится недопустимое слово')
         return cleaned_data
 
     def clean_description(self):
         cleaned_data = self.cleaned_data['description']
-        stop_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
-        if cleaned_data in stop_words:
+        if cleaned_data in STOP_WORDS:
             raise forms.ValidationError('Содержится недопустимое слово')
         return cleaned_data
 

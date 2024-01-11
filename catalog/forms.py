@@ -8,7 +8,7 @@ STOP_WORDS = ['казино', 'криптовалюта', 'крипта', 'би�
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ('name', 'category', 'description', 'price', 'image')
+        fields = ('name', 'category', 'description', 'price', 'image', 'is_published')
 
     def clean_name(self):
         cleaned_data = self.cleaned_data['name']

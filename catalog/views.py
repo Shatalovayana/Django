@@ -78,15 +78,3 @@ def contact(request):
         message = request.POST.get('message')
         print(f'{name}, {phone}, {message}')
     return render(request, 'catalog/contact.html')
-
-
-def edit_product(request, product_id):
-    product = get_object_or_404(Product, pk=product_id)
-
-    # Проверка наличия разрешения у пользователя
-    if not request.user.has_perm('your_app.can_edit_product') or request.user != product.user:
-        return HttpResponse("У вас нет доступа к редактированию данного продукта.")
-
-    # Логика редактирования продукта
-
-    return HttpResponse("Продукт успешно отредактирован.")

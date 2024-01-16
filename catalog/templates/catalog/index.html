@@ -18,7 +18,7 @@
             <h1 class="card-title pricing-card-title">{{ object.price }} $</h1>
             <button type="button" class="btn btn-lg btn-block btn-outline-primary form-control mb-2">Купить</button>
             <a type="button" href="{% url 'catalog:product' object.pk %}" class="btn btn-lg btn-block btn-outline-primary form-control mb-2">О товаре</a>
-            {% if perms.catalog.change_product %}
+            {% if perms.catalog.change_product or user == object.user %}
             <a type="button" href="{% url 'catalog:update_product' object.pk %}" class="btn btn-lg btn-block btn-outline-primary form-control mb-2">Редактировать</a>
             {% endif %}
         </div>

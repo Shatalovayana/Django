@@ -1,7 +1,7 @@
-from django.contrib.auth.decorators import permission_required, login_required
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import inlineformset_factory
-from django.shortcuts import render
+from django.http import Http404, HttpResponse
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
@@ -32,11 +32,18 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:index')
-    permission_required = 'catalog.change_product'
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if not (self.object.user == self.request.user or
+                self.request.user.is_superuser or
+                self.request.user.groups.filter(name='moderator')):
+            raise Http404('У вас нет доступа к этой странице')
+        return self.object
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -72,3 +79,14 @@ def contact(request):
         print(f'{name}, {phone}, {message}')
     return render(request, 'catalog/contact.html')
 
+
+def edit_product(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+
+    # Проверка наличия разрешения у пользователя
+    if not request.user.has_perm('your_app.can_edit_product') or request.user != product.user:
+        return HttpResponse("У вас нет доступа к редактированию данного продукта.")
+
+    # Логика редактирования продукта
+
+    return HttpResponse("Продукт успешно отредактирован.")

@@ -38,7 +38,9 @@ class Product(models.Model):
             (
                 'set_published',
                 'Can publish posts'
-            )
+            ),
+            ("can_edit_product",
+             "Can edit product"),
         ]
 
 
@@ -52,4 +54,3 @@ class Version(models.Model):
         verbose_name = 'версия'
         verbose_name_plural = 'версии'
         get_latest_by = 'pk'
-

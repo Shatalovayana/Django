@@ -1,0 +1,35 @@
+{% extends 'catalog/base.html' %}
+{% load tags %}
+{% block content %}
+
+<h1>{{ category.name }}</h1>
+
+    {% for product in products %}
+    <div class="col-3">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">{{ product }}</h4>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title pricing-card-title">{{ product.price }} $</h1>
+                <button type="button" class="btn btn-lg btn-block btn-outline-primary form-control mb-2">Купить</button>
+                <a type="button" href="{% url 'catalog:product' object.pk %}"
+                   class="btn btn-lg btn-block btn-outline-primary form-control mb-2">О товаре</a>
+                {% if perms.catalog.change_product or user == object.user %}
+                <a type="button" href="{% url 'catalog:update_product' object.pk %}"
+                   class="btn btn-lg btn-block btn-outline-primary form-control mb-2">Редактировать</a>
+                {% endif %}
+            </div>
+            <div class="card-footer">
+                {% for version in object.version_set.all %}
+                {% if version.is_active %}
+                <small>
+                    Версия {{ version.version_number }}
+                </small>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+        {% endblock %}
